@@ -14,16 +14,30 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.processMovieImage = exports.uploadMovieImage = void 0;
 const multer_1 = __importDefault(require("multer"));
-const cloudinaryConfig_1 = __importDefault(require("../cloudinaryConfig"));
+const cloudinary_1 = require("cloudinary");
+const multer_storage_cloudinary_1 = require("multer-storage-cloudinary");
 const ApiError_1 = __importDefault(require("../error/ApiError"));
-const upload = (0, multer_1.default)({ dest: 'uploads/' });
+cloudinary_1.v2.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+const cloudinaryStorage = new multer_storage_cloudinary_1.CloudinaryStorage({
+    cloudinary: cloudinary_1.v2,
+    params: (req, file) => __awaiter(void 0, void 0, void 0, function* () {
+        return {
+            folder: 'uploads',
+        };
+    }),
+});
+const upload = (0, multer_1.default)({ storage: cloudinaryStorage });
 exports.uploadMovieImage = upload.single('image');
 const processMovieImage = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         if (!req.file) {
             return next(ApiError_1.default.badRequest('No image file provided.'));
         }
-        const imageResult = yield cloudinaryConfig_1.default.v2.uploader.upload(req.file.path);
+        const imageResult = yield cloudinary_1.v2.uploader.upload(req.file.path);
         req.body.movieImageUrl = imageResult.secure_url;
         next();
     }
