@@ -17,14 +17,13 @@ const cors_1 = __importDefault(require("cors"));
 const mongoose = require('mongoose').default;
 require("dotenv").config();
 const router = require("./router");
-const ApiErrorHandler_1 = __importDefault(require("./error/ApiErrorHandler"));
 const PORT = process.env.PORT || 5000;
 const DB_URL = process.env.DB_URL;
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use((0, cors_1.default)());
 app.use("/api", router);
-app.use(ApiErrorHandler_1.default);
+//app.use(ApiErrorHandler);
 function startApp() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
