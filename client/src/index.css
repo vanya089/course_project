@@ -3,7 +3,11 @@
 @tailwind utilities;
 
 body {
+  background-image: url("assets/top-101.jpg");
+  background-size: 20% 8%;
+  background-attachment: fixed;
   margin: 0;
+  color: white;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
@@ -14,4 +18,23 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: 5px 5px 5px -5px rgba(34, 60, 80, 0.2) inset;
+  background-color: #f9f9fd;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #e75757;
+  background-image: -webkit-linear-gradient(45deg,rgba(255, 255, 255, .25) 25%,
+  transparent 25%,
+  transparent 50%,
+  rgba(255, 255, 255, .25) 50%,
+  rgba(255, 255, 255, .25) 75%,
+  transparent 75%,
+  transparent);
 }

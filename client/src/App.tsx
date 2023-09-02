@@ -8,7 +8,7 @@ function App() {
 
 
     return (
-        <div className="container mx-auto ">
+        <div className="container mx-auto my-10 bg-black border-2 border-teal-800 rounded-lg ">
             <Header/>
             <Home/>
             <Footer/>
