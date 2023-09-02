@@ -6,11 +6,11 @@ import MovieModel from "../models/Movie";
 class MovieController {
     public async createMovie(req: Request, res: Response) {
         try {
-            const { title, description, movieImageUrl } = req.body;
+            const { title, description, imageUrl } = req.body;
             const newMovie = await MovieModel.create({
                 title,
                 description,
-                movieImageUrl,
+                imageUrl,
             });
             res.status(201).json(newMovie);
         } catch (error) {
