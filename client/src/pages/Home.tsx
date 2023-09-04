@@ -5,7 +5,7 @@ import ReviewSkeleton from "../components/review/ReviewSkeleton";
 
 const Home = () => {
    const status = 'loading';
-    const reviews = movies.map((items) => <Review key={items.id} {...items}/>);
+    const reviews = movies.map((items) => <Review key={items._id} {...items}/>);
     const skeletons = [...new Array(12)].map((_, index) => <ReviewSkeleton key={index}/>);
 
     return (
