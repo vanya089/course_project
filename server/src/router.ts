@@ -1,4 +1,5 @@
 import express from "express";
+import passport from 'passport'
 import {check} from "express-validator";
 import UserController from "./controllers/UserController";
 import {authenticateToken} from "./middleware/authMiddleware";
@@ -19,13 +20,23 @@ router.post(
 router.post("/login", UserController.loginNewUser);
 router.get("/getUsers", authenticateToken, UserController.getUsers);
 
+// Маршруты для аутентификации через Google
+router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+router.get('/auth/google/callback', passport.authenticate('google'), UserController.authCallback);
+
+// Маршруты для аутентификации через Twitter
+router.get('/twitter', passport.authenticate('twitter'));
+router.get('/**//twitter/callback', passport.authenticate('twitter'), UserController.authCallback);
+
+
+
 router.post(
     "/movies",
     authenticateToken,
     processMovieImage,
     MovieController.createMovie
 );
-router.get("/movies", authenticateToken, MovieController.getMovies);
+router.get("/getMovies", authenticateToken, MovieController.getMovies);
 router.delete("/movies/:id", authenticateToken, MovieController.deleteMovie);
 
 export = router;

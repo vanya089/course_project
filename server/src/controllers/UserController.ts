@@ -1,20 +1,19 @@
 import {validationResult} from 'express-validator';
-import { ObjectId } from 'mongodb';
+import {ObjectId} from 'mongodb';
 import ApiError from '../error/ApiError';
 import {Request, Response, NextFunction} from 'express';
 import User from "../models/User";
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken";
 import Role from "../models/Role";
+
 require("dotenv").config();
 
 
-
-const generateAccessToken = (id: ObjectId, roles: string[]): string => {
-    const payload = { id, roles };
-    return jwt.sign(payload, process.env.SECRET_KEY!, { expiresIn: '12h' });
+export const generateAccessToken = (id: ObjectId, roles: string[]): string => {
+    const payload = {id, roles};
+    return jwt.sign(payload, process.env.SECRET_KEY!, {expiresIn: '12h'});
 };
-
 
 
 class UserController {
@@ -64,6 +63,23 @@ class UserController {
             return res.status(200).json({token});
         } catch (e) {
             return next(new ApiError(400, 'Login failed!'));
+        }
+    }
+
+    public async authCallback(req: Request, res: Response) {
+        try {
+            const user = req.user;
+            if (!user) {
+                return res.status(401).json({message: 'Authentication failed'});
+            }
+
+            const token = generateAccessToken(user._id, user.roles);
+            return res.status(200).json({token});
+
+        } catch (error) {
+            // Обработка ошибок
+            console.error(error);
+            res.status(500).json({message: 'Internal server error'});
         }
     }
 

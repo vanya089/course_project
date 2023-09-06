@@ -21,11 +21,11 @@ const Registration: React.FC = () => {
     };
 
     return (
-        <div className="mx-auto h-[650px] w-[400px]">
-            <form className="flex flex-col justify-center gap-5 border-2 rounded-md" onSubmit={registrationFunc}>
-                <input className="m-2 pl-2 text-black border rounded-md" type='email' id='email' name='email' placeholder='Enter your email'/>
-                <input className="m-2 pl-2 text-black border rounded-md" id='username' name='username' placeholder="username" type="text"/>
-                <input className="m-2 pl-2 text-black border rounded-md" type='password' id='password' name='password' placeholder='Enter your password'/>
+        <div className="mx-auto my-40 h-[418px] w-[400px]">
+            <form className="flex flex-col justify-center gap-5 border-2 border-teal-800 rounded-md" onSubmit={registrationFunc}>
+                <input className="m-2 pl-2 text-white border rounded-md bg-black" type='email' id='email' name='email' placeholder='Enter your email'/>
+                <input className="m-2 pl-2 text-white border rounded-md bg-black" id='username' name='username' placeholder="username" type="text"/>
+                <input className="m-2 pl-2 text-white border rounded-md bg-black" type='password' id='password' name='password' placeholder='Enter your password'/>
                 <button
                     className="mx-40 mb-2 w-20 border-4 border-green-800 rounded-full hover:bg-green-600 transition ease-in-out"
                     name='log'
