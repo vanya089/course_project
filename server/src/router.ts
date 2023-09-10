@@ -20,11 +20,11 @@ router.post(
 router.post("/login", UserController.loginNewUser);
 router.get("/getUsers", authenticateToken, UserController.getUsers);
 
-// Маршруты для аутентификации через Google
+
 router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 router.get('/auth/google/callback', passport.authenticate('google'), UserController.authCallback);
 
-// Маршруты для аутентификации через Twitter
+
 router.get('/twitter', passport.authenticate('twitter'));
 router.get('/**//twitter/callback', passport.authenticate('twitter'), UserController.authCallback);
 
