@@ -21,14 +21,14 @@ class UserController {
         try {
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
-                return next(new ApiError(400, 'Fields must not be empty!'));
+                return res.status(400).json({ error: 'Fields must not be empty!' });
             }
-            const {email, username, password} = req.body;
-            const candidate = await User.findOne({email, username});
+            const { email, username, password } = req.body;
+            const candidate = await User.findOne({ email, username });
             if (!candidate) {
-                const userRole = await Role.findOne({value: "USER"});
+                const userRole = await Role.findOne({ value: 'USER' });
                 if (!userRole) {
-                    return next(new ApiError(400, "Role not found"));
+                    return res.status(400).json({ error: 'Role not found' });
                 }
                 const hashPassword = bcrypt.hashSync(password, 5);
                 const user = new User({
@@ -36,15 +36,14 @@ class UserController {
                     email,
                     password: hashPassword,
                     roles: [userRole.value],
-
                 });
                 await user.save();
-                return res.status(200).json({message: 'Registration successful'});
+                return res.status(200).json({ message: 'Registration successful' });
             } else {
-                return next(new ApiError(400, 'The user is already registered!'));
+                return res.status(400).json({ error: 'The user is already registered!' });
             }
         } catch (e) {
-            return next(new ApiError(500, 'Server error!'));
+            return res.status(500).json({ error: 'Server error!' });
         }
     }
 

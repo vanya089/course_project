@@ -6,7 +6,7 @@ export const registerUser = createAsyncThunk<void, { email: string, username: st
     "user/registerUserStatus",
     async ({email, username, password}, {rejectWithValue}) => {
         try {
-            const response = await axios.post("https://course-project-ten.vercel.app/api/registration", {
+            const response = await axios.post("https://course-project-ten.vercel.app/registration", {
                 email,
                 username,
                 password,
