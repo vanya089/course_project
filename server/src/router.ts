@@ -18,7 +18,7 @@ router.post(
     UserController.createNewUser
 );
 router.post("/login", UserController.loginNewUser);
-router.get("/getUsers", authenticateToken, UserController.getUsers);
+router.get("/getUsers", UserController.getUsers);
 
 
 router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
