@@ -9,7 +9,7 @@ const Header = () => {
             </Link>
             <div className="flex gap-2">
                 <Link to={"/login"}>
-                    <button className="p-2 border rounded-md">Sign In</button>
+                    <button className="p-2 border rounded-md">Login</button>
                 </Link>
                 <Link to={"/registration"}>
                     <button className="p-2 border-2 rounded-md"><b>Sign Up</b></button>

@@ -1,13 +1,14 @@
 import { Request, Response } from 'express';
-import Movie from '../models/Movie';
-import MovieModel from "../models/Movie";
+import Review from '../models/Review';
+
 
 
 class MovieController {
     public async createMovie(req: Request, res: Response) {
         try {
             const { title, description, imageUrl } = req.body;
-            const newMovie = await MovieModel.create({
+            let userId = req.user;
+            const newMovie = await Review.create({
                 title,
                 description,
                 imageUrl,
@@ -20,7 +21,7 @@ class MovieController {
 
     public async getMovies(req: Request, res: Response): Promise<void> {
         try {
-            const movies = await Movie.find();
+            const movies = await Review.find();
             res.status(200).json(movies);
         } catch (error) {
             res.status(500).json({ error: 'An error occurred while fetching movies.' });
@@ -30,11 +31,11 @@ class MovieController {
     public async deleteMovie(req: Request, res: Response): Promise<void> {
         try {
             const { id } = req.params;
-            const deletedMovie = await Movie.findByIdAndDelete(id);
+            const deletedMovie = await Review.findByIdAndDelete(id);
             if (deletedMovie) {
-                res.status(200).json({ message: 'Movie deleted successfully.' });
+                res.status(200).json({ message: 'Review deleted successfully.' });
             } else {
-                res.status(404).json({ error: 'Movie not found.' });
+                res.status(404).json({ error: 'Review not found.' });
             }
         } catch (error) {
             res.status(500).json({ error: 'An error occurred while deleting the movie.' });
