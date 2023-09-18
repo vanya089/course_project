@@ -1,3 +1,4 @@
+/*
 import passport from 'passport';
 import {Strategy as GoogleStrategy} from 'passport-google-oauth20';
 import { Strategy as TwitterStrategy } from 'passport-twitter';
@@ -42,17 +43,17 @@ passport.use(
                 let user = await User.findOne({ twitterId: profile.id });
 
                 if (!user) {
-                    // Создайте нового пользователя на основе данных из Twitter
+
                     user = new User({
                         twitterId: profile.id,
-                        email: '', // У Twitter нет email, так что оставьте его пустым или заполните по своему усмотрению
-                        // Другие данные пользователя
+                        email: '',
+
                     });
 
                     await user.save();
                 }
 
-                // Генерируйте JWT-токен для пользователя
+
                 const token = generateAccessToken(user._id, user.roles);
                 return done(null, token);
             } catch (error) {
@@ -68,3 +69,4 @@ passport.serializeUser((user: IUser, done) => {
 passport.deserializeUser((user: IUser, done) => {
     done(null, user);
 });
+*/

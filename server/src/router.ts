@@ -3,8 +3,11 @@ import passport from 'passport'
 import {check} from "express-validator";
 import UserController from "./controllers/UserController";
 import {authenticateToken} from "./middleware/authMiddleware";
-import {processMovieImage} from "./middleware/movieMiddleware";
-import MovieController from "./controllers/MovieController";
+import {processMovieImage} from "./middleware/reviewMiddleware";
+import ReviewController from "./controllers/ReviewController";
+import multer from "multer";
+
+const upload = multer();
 
 const router = express.Router();
 
@@ -21,22 +24,20 @@ router.post("/login", UserController.loginNewUser);
 router.get("/getUsers", UserController.getUsers);
 
 
-router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+router.get('/google', passport.authenticate('google', {scope: ['profile', 'email']}));
 router.get('/auth/google/callback', passport.authenticate('google'), UserController.authCallback);
 
-
 router.get('/twitter', passport.authenticate('twitter'));
-router.get('/**//twitter/callback', passport.authenticate('twitter'), UserController.authCallback);
-
+router.get('/auth/twitter/callback', passport.authenticate('twitter'), UserController.authCallback);
 
 
 router.post(
-    "/movies",
-    authenticateToken,
+    "/createReview",
+    upload.single('file'),
     processMovieImage,
-    MovieController.createMovie
+    ReviewController.createReview
 );
-router.get("/getMovies", authenticateToken, MovieController.getMovies);
-router.delete("/movies/:id", authenticateToken, MovieController.deleteMovie);
+router.get("/getReviews", ReviewController.getReviews);
+router.delete("/review/:id", ReviewController.deleteReview);
 
 export = router;

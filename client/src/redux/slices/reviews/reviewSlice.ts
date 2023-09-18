@@ -18,6 +18,17 @@ export const reviewSlice = createSlice({
             state.reviews = action.payload;
         },
     },
+    // extraReducers: (builder) => {
+    //     builder.addCase(createReview.fulfilled, (state, action) => {
+    //         state.status = Status.SUCCESS;
+    //         state.reviews = action.payload;
+    //         state.error = null;
+    //     });
+    //     builder.addCase(createReview.rejected, (state, action) => {
+    //         state.status = Status.ERROR;
+    //         state.error = (action.payload as { errorMessage: string }).errorMessage;
+    //     });
+    // },
 })
 export const reviewSelector = (state: RootState) => state.reviews
 export const {setReviews} = reviewSlice.actions

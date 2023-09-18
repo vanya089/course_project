@@ -17,13 +17,20 @@ const cors_1 = __importDefault(require("cors"));
 const mongoose = require('mongoose').default;
 require("dotenv").config();
 const router = require("./router");
+const morgan = require('morgan');
+const corsOptions = {
+    origin: ['http://localhost:3000', 'https://course-project-ten.vercel.app'],
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+};
 const PORT = process.env.PORT || 5000;
 const DB_URL = process.env.DB_URL;
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
-app.use((0, cors_1.default)());
+app.use((0, cors_1.default)(corsOptions));
 app.use("/api", router);
 //app.use(ApiErrorHandler);
+app.use(morgan('dev'));
 function startApp() {
     return __awaiter(this, void 0, void 0, function* () {
         try {

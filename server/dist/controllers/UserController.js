@@ -12,6 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.generateAccessToken = void 0;
 const express_validator_1 = require("express-validator");
 const ApiError_1 = __importDefault(require("../error/ApiError"));
 const User_1 = __importDefault(require("../models/User"));
@@ -23,20 +24,21 @@ const generateAccessToken = (id, roles) => {
     const payload = { id, roles };
     return jsonwebtoken_1.default.sign(payload, process.env.SECRET_KEY, { expiresIn: '12h' });
 };
+exports.generateAccessToken = generateAccessToken;
 class UserController {
     createNewUser(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const errors = (0, express_validator_1.validationResult)(req);
                 if (!errors.isEmpty()) {
-                    return next(new ApiError_1.default(400, 'Fields must not be empty!'));
+                    return res.status(400).json({ error: 'Fields must not be empty!' });
                 }
                 const { email, username, password } = req.body;
                 const candidate = yield User_1.default.findOne({ email, username });
                 if (!candidate) {
-                    const userRole = yield Role_1.default.findOne({ value: "USER" });
+                    const userRole = yield Role_1.default.findOne({ value: 'USER' });
                     if (!userRole) {
-                        return next(new ApiError_1.default(400, "Role not found"));
+                        return res.status(400).json({ error: 'Role not found' });
                     }
                     const hashPassword = bcrypt_1.default.hashSync(password, 5);
                     const user = new User_1.default({
@@ -49,11 +51,11 @@ class UserController {
                     return res.status(200).json({ message: 'Registration successful' });
                 }
                 else {
-                    return next(new ApiError_1.default(400, 'The user is already registered!'));
+                    return res.status(400).json({ error: 'The user is already registered!' });
                 }
             }
             catch (e) {
-                return next(new ApiError_1.default(500, 'Server error!'));
+                return res.status(500).json({ error: 'Server error!' });
             }
         });
     }
@@ -69,11 +71,27 @@ class UserController {
                 if (!validPassword) {
                     return next(new ApiError_1.default(400, 'Password error!'));
                 }
-                const token = generateAccessToken(user._id, user.roles);
+                const token = (0, exports.generateAccessToken)(user._id, user.roles);
                 return res.status(200).json({ token });
             }
             catch (e) {
                 return next(new ApiError_1.default(400, 'Login failed!'));
+            }
+        });
+    }
+    authCallback(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const user = req.user;
+                if (!user) {
+                    return res.status(401).json({ message: 'Authentication failed' });
+                }
+                const token = (0, exports.generateAccessToken)(user._id, user.roles);
+                return res.status(200).json({ token });
+            }
+            catch (error) {
+                console.error(error);
+                res.status(500).json({ message: 'Internal server error' });
             }
         });
     }

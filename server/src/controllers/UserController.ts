@@ -17,7 +17,7 @@ export const generateAccessToken = (id: ObjectId, roles: string[]): string => {
 
 
 class UserController {
-    public async createNewUser(req: Request, res: Response, next: NextFunction) {
+    public async createNewUser(req: Request, res: Response) {
         try {
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
@@ -76,7 +76,6 @@ class UserController {
             return res.status(200).json({token});
 
         } catch (error) {
-            // Обработка ошибок
             console.error(error);
             res.status(500).json({message: 'Internal server error'});
         }

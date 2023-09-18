@@ -3,6 +3,7 @@ import cors from "cors";
 const mongoose = require('mongoose').default;
 require("dotenv").config();
 import router = require("./router");
+const morgan = require('morgan');
 import ApiErrorHandler from "./error/ApiErrorHandler";
 
 const corsOptions = {
@@ -22,6 +23,7 @@ app.use(express.json());
 app.use(cors(corsOptions));
 app.use("/api", router)
 //app.use(ApiErrorHandler);
+app.use(morgan('dev'));
 
 async function startApp() {
     try {
