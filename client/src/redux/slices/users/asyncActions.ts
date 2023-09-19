@@ -29,7 +29,7 @@ export const loginUser = createAsyncThunk<void, { email: string, password: strin
             });
 
             const {token} = response.data;
-            localStorage.setItem("authToken", token);
+            localStorage.setItem("token", token);
 
             return response.data;
         } catch (e: any) {

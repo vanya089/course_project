@@ -52,7 +52,7 @@ class UserController {
             const {username, password} = req.body;
             const user = await User.findOne({username});
             if (!user) {
-                return next(new ApiError(400, 'User is not found!'));
+                return next(new ApiError(400, `User ${username} is not found!`));
             }
             const validPassword = bcrypt.compareSync(password, user.password);
             if (!validPassword) {

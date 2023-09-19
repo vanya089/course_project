@@ -25,10 +25,10 @@ router.get("/getUsers", UserController.getUsers);
 
 
 router.get('/google', passport.authenticate('google', {scope: ['profile', 'email']}));
-router.get('/auth/google/callback', passport.authenticate('google'), UserController.authCallback);
+router.get('/google/callback', passport.authenticate('google'), UserController.authCallback);
 
 router.get('/twitter', passport.authenticate('twitter'));
-router.get('/auth/twitter/callback', passport.authenticate('twitter'), UserController.authCallback);
+router.get('/twitter/callback', passport.authenticate('twitter'), UserController.authCallback);
 
 
 router.post(

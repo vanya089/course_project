@@ -2,28 +2,29 @@ import React from 'react';
 import './App.css';
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import Home from "./pages/Home";
 import {Route, Routes} from "react-router-dom";
-import PrivateRoute from "./router/PrivateRoute";
-import Login from "./pages/Login";
-import Registration from "./pages/Registration";
-import CreateReview from "./components/CreateReview";
-import UserPage from "./pages/UserPage";
+import {adminRoutes, publicRoutes, userRoutes} from "./router/router";
 
 function App() {
-
+    const isAdmin = true;
+    const isLogin = true;
 
     return (
         <div className="container min-h-[800px] mx-auto my-10 bg-black border-2 border-teal-800 rounded-lg ">
             <Header/>
             <Routes>
-                <Route element={<PrivateRoute/>}>
-                    <Route path="/" element={<Home/>}/>
-                </Route>
-                <Route path="/login" element={<Login/>}/>
-                <Route path="/registration" element={<Registration/>}/>
-                <Route path="/createReview" element={<CreateReview/>}/>
-                <Route path="/userPage" element={<UserPage/>}/>
+                {
+                    isLogin && userRoutes.map(({path, Component}) =>
+                        <Route path={path} element={<Component/>}/>)
+                }
+                {
+                    isAdmin && adminRoutes.map(({path, Component}) =>
+                        <Route path={path} element={<Component/>}/>)
+                }
+                {
+                    publicRoutes.map(({path, Component}) =>
+                        <Route path={path} element={<Component/>}/>)
+                }
             </Routes>
             <Footer/>
         </div>

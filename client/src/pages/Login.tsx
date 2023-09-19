@@ -1,16 +1,14 @@
-import React, {memo} from 'react';
+import React from 'react';
 import {Link} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {AppDispatch} from "../redux/store";
 import {loginUser} from "../redux/slices/users/asyncActions";
-import {useWhyDidYouUpdate} from "ahooks";
+
 import {AiFillFacebook, AiOutlineGoogle} from "react-icons/ai";
 
 
 
-const Login: React.FC = memo(() => {
-        useWhyDidYouUpdate('Login', {})
-
+const Login: React.FC = () => {
         const dispatch = useDispatch<AppDispatch>()
 
         const loginFunc = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -54,7 +52,7 @@ const Login: React.FC = memo(() => {
                 </form>
             </div>
         );
-    }
-);
+};
+
 
 export default Login;
