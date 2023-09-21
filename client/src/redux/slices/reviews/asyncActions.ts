@@ -1,5 +1,6 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import axios from "axios";
+import {TokenService} from "./token-service";
 
 export const createReview = createAsyncThunk<void, {
     title: string;
@@ -21,11 +22,12 @@ export const createReview = createAsyncThunk<void, {
             const response = await axios.post("http://localhost:5005/api/createReview", formData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
+                    "Authorization": TokenService.getToken("token"),
                 },
             });
 
             return response.data;
-        } catch (e: any) {
+        } catch (e: Error | any) {
             return rejectWithValue({errorMessage: e.message});
         }
     }

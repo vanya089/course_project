@@ -31,14 +31,14 @@ class UserController {
             try {
                 const errors = (0, express_validator_1.validationResult)(req);
                 if (!errors.isEmpty()) {
-                    return res.status(400).json({ error: 'Fields must not be empty!' });
+                    return next(new ApiError_1.default(400, 'Fields must not be empty!'));
                 }
                 const { email, username, password } = req.body;
                 const candidate = yield User_1.default.findOne({ email, username });
                 if (!candidate) {
                     const userRole = yield Role_1.default.findOne({ value: 'USER' });
                     if (!userRole) {
-                        return res.status(400).json({ error: 'Role not found' });
+                        return next(new ApiError_1.default(400, 'Role not found'));
                     }
                     const hashPassword = bcrypt_1.default.hashSync(password, 5);
                     const user = new User_1.default({
@@ -51,7 +51,7 @@ class UserController {
                     return res.status(200).json({ message: 'Registration successful' });
                 }
                 else {
-                    return res.status(400).json({ error: 'The user is already registered!' });
+                    return next(new ApiError_1.default(400, 'The user is already registered!'));
                 }
             }
             catch (e) {
@@ -62,10 +62,10 @@ class UserController {
     loginNewUser(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const { username, password } = req.body;
-                const user = yield User_1.default.findOne({ username });
+                const { email, password } = req.body;
+                const user = yield User_1.default.findOne({ email });
                 if (!user) {
-                    return next(new ApiError_1.default(400, 'User is not found!'));
+                    return next(new ApiError_1.default(400, `User ${email} is not found!`));
                 }
                 const validPassword = bcrypt_1.default.compareSync(password, user.password);
                 if (!validPassword) {
@@ -95,11 +95,15 @@ class UserController {
             }
         });
     }
-    getUsers(req, res, next) {
+    getUser(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const users = yield User_1.default.find();
-                return res.json(users);
+                const { email } = req.params;
+                const user = yield User_1.default.findOne({ email });
+                if (!user) {
+                    return next(new ApiError_1.default(404, 'User not found'));
+                }
+                return res.json(user);
             }
             catch (e) {
                 return next(new ApiError_1.default(400, 'Server error!'));

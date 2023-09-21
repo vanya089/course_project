@@ -7,14 +7,20 @@ import {
     checkUser,
     deleteCheckedUsers,
     deleteOneUser,
-    fetchUsers,
+    fetchUser,
 } from "./asyncActions";
-import {Status, UsersState, UserType} from "./types";
+import {Status, UserState, UserType} from "./types";
 
 
-
-const initialState: UsersState = {
-    users: [],
+const initialState: UserState = {
+    user: {
+        _id: "",
+        username: "",
+        email: "",
+        password: "",
+        roles:[]
+    },
+    isLogin: false,
     status: Status.LOADING,
     error: null
 
@@ -24,24 +30,24 @@ export const userSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {
-        setUsers(state, action: PayloadAction<UserType[]>) {
-            state.users = action.payload;
+        setUser(state) {
+            state.isLogin = !state.isLogin;
         },
     },
     extraReducers: (builder) => {
-        builder.addCase(fetchUsers.pending, (state) => {
+        builder.addCase(fetchUser.pending, (state) => {
             state.status = Status.LOADING;
-            state.users = [];
+            state.user = {} as UserType;
             state.error = null;
         });
-        builder.addCase(fetchUsers.fulfilled, (state, action) => {
+        builder.addCase(fetchUser.fulfilled, (state, action) => {
             state.status = Status.SUCCESS;
-            state.users = action.payload;
+            state.user = action.payload;
             state.error = null;
         });
-        builder.addCase(fetchUsers.rejected, (state, action) => {
+        builder.addCase(fetchUser.rejected, (state, action) => {
             state.status = Status.ERROR;
-            state.users = [];
+            state.user = {} as UserType;
             state.error = (action.payload as { errorMessage: string }).errorMessage;
         });
         builder.addCase(blockAllUsers.rejected, (state, action) => {
@@ -64,6 +70,6 @@ export const userSlice = createSlice({
 })
 
 
-export const userSelector = (state: RootState) => state.users
-export const {setUsers} = userSlice.actions
-export default userSlice.reducer
+export const userSelector = (state: RootState) => state;
+export const {setUser} = userSlice.actions;
+export default userSlice.reducer;

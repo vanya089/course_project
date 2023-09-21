@@ -21,7 +21,7 @@ router.post(
     UserController.createNewUser
 );
 router.post("/login", UserController.loginNewUser);
-router.get("/getUsers", UserController.getUsers);
+router.get("/getUser/:email", UserController.getUser);
 
 
 router.get('/google', passport.authenticate('google', {scope: ['profile', 'email']}));
@@ -35,9 +35,10 @@ router.post(
     "/createReview",
     upload.single('file'),
     processMovieImage,
+    authenticateToken,
     ReviewController.createReview
 );
-router.get("/getReviews", ReviewController.getReviews);
-router.delete("/review/:id", ReviewController.deleteReview);
+router.get("/getReviews",authenticateToken, ReviewController.getReviews);
+router.delete("/review/:id",authenticateToken, ReviewController.deleteReview);
 
 export = router;

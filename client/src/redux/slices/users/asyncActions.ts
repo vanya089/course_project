@@ -1,27 +1,30 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import axios from "axios";
 import {UserType} from "./types";
+import {setUser} from "./userSlice";
 
 export const registerUser = createAsyncThunk<void, { email: string, username: string, password: string }>(
     "user/registerUserStatus",
-    async ({email, username, password}, {rejectWithValue}) => {
+    async ({email, username, password}, {rejectWithValue, dispatch}) => {
         try {
             const response = await axios.post("http://localhost:5005/api/registration", {
                 email,
                 username,
                 password,
             });
+
+            await dispatch(loginUser({email, password}));
+
             return response.data;
-        } catch (e: any) {
+        } catch (e: Error | any) {
             return rejectWithValue({errorMessage: e.message});
         }
     }
 );
 
-
 export const loginUser = createAsyncThunk<void, { email: string, password: string }>(
     "user/loginUserStatus",
-    async ({email, password}, {rejectWithValue}) => {
+    async ({email, password}, {rejectWithValue, dispatch}) => {
         try {
             const response = await axios.post("http://localhost:5005/api/login", {
                 email,
@@ -30,22 +33,36 @@ export const loginUser = createAsyncThunk<void, { email: string, password: strin
 
             const {token} = response.data;
             localStorage.setItem("token", token);
+            await dispatch(fetchUser(email))
 
             return response.data;
-        } catch (e: any) {
+        } catch (e: Error | any) {
             return rejectWithValue({errorMessage: e.message});
         }
     }
 );
 
-export const fetchUsers = createAsyncThunk<UserType[]>(
+export const logoutUser = createAsyncThunk<void, { email: string, password: string }>(
+    "user/logoutUserStatus",
+    async ({email, password}, {rejectWithValue}) => {
+        try {
+
+            localStorage.removeItem("token");
+
+        } catch (e: Error | any) {
+            return rejectWithValue({errorMessage: e.message});
+        }
+    }
+);
+
+export const fetchUser = createAsyncThunk<UserType, string>(
     'user/fetchUsersStatus',
-    async (params, {rejectWithValue}) => {
+    async (email, {rejectWithValue, dispatch}) => {
         try {
             const {data} = await axios.get(
-                `http://localhost:5005/api/getUsers`
+                `http://localhost:5005/api/getUser/${email}`
             );
-
+            dispatch(setUser())
             return data;
         } catch (e: any) {
             return rejectWithValue({errorMessage: e.message});
@@ -53,6 +70,7 @@ export const fetchUsers = createAsyncThunk<UserType[]>(
 
     }
 );
+
 export const checkUser = createAsyncThunk<void, { userId: string, complete: boolean }>(
     'user/checkUserStatus',
     async ({userId, complete}, {rejectWithValue}) => {
@@ -61,7 +79,7 @@ export const checkUser = createAsyncThunk<void, { userId: string, complete: bool
                 `http://localhost:5005/api/check`,
                 {_id: userId, complete}
             );
-        } catch (e: any) {
+        } catch (e: Error | any) {
             return rejectWithValue(e.message);
         }
     }
@@ -74,7 +92,7 @@ export const checkAllUsers = createAsyncThunk<void>(
             await axios.patch(
                 `http://localhost:5005/api/checkAll`
             );
-        } catch (e: any) {
+        } catch (e: Error | any) {
             return rejectWithValue(e.message);
         }
     }
@@ -85,12 +103,11 @@ export const blockAllUsers = createAsyncThunk<void>(
     async (_, {rejectWithValue}) => {
         try {
             await axios.put(`http://localhost:5005/api/blockAll`);
-        } catch (e: any) {
+        } catch (e: Error | any) {
             return rejectWithValue(e.message);
         }
     }
 );
-
 
 export const blockUser = createAsyncThunk<void, string>(
     'user/blockUserStatus',
@@ -99,12 +116,11 @@ export const blockUser = createAsyncThunk<void, string>(
             await axios.put(
                 `http://localhost:5005/api/block/${userId}`
             );
-        } catch (e: any) {
+        } catch (e: Error | any) {
             return rejectWithValue(e.message);
         }
     }
 );
-
 
 export const deleteOneUser = createAsyncThunk<void, string>(
     'user/deleteOneUserStatus',
@@ -113,7 +129,7 @@ export const deleteOneUser = createAsyncThunk<void, string>(
             await axios.delete(
                 `http://localhost:5005/api/deleteOne/${userId}`,
             );
-        } catch (e: any) {
+        } catch (e: Error | any) {
             return rejectWithValue(e.message);
         }
     }
@@ -126,7 +142,7 @@ export const deleteCheckedUsers = createAsyncThunk<void>(
             await axios.delete(
                 `http://localhost:5005/api/deleteChecked`
             );
-        } catch (e: any) {
+        } catch (e: Error | any) {
             return rejectWithValue(e.message);
         }
     }

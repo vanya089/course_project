@@ -1,4 +1,5 @@
-import { Schema, model, Document } from 'mongoose';
+import {Schema, model, Document} from 'mongoose';
+import {ObjectId} from "mongodb";
 
 export interface IUser extends Document {
     email: string;
@@ -10,12 +11,12 @@ export interface IUser extends Document {
 }
 
 const UserSchema = new Schema<IUser>({
-    email: { type: String, unique: true, required: true },
-    username: { type: String, unique: true, required: true },
-    password: { type: String, required: true },
-    roles: [{ type: String, ref: 'Role' }],
-   // twitterId: { type: String, unique: true },
-   // googleId: { type: String, unique: true },
+    email: {type: String, unique: true, required: true},
+    username: {type: String, unique: true, required: true},
+    password: {type: String, required: true},
+    roles: [{type: String, ref: 'Role'}],
+    // twitterId: { type: String, unique: true },
+    // googleId: { type: String, unique: true },
 });
 
 const User = model<IUser>('User', UserSchema);

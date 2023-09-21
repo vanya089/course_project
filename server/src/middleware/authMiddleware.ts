@@ -1,7 +1,8 @@
-import jwt, {JsonWebTokenError, TokenExpiredError} from 'jsonwebtoken';
+import jwt, {JsonWebTokenError, JwtPayload, TokenExpiredError} from 'jsonwebtoken';
 import {NextFunction, Request, Response} from 'express';
 import ApiError from '../error/ApiError';
 import {IUser} from "../models/User";
+require("dotenv").config();
 
 declare module 'express-serve-static-core' {
     interface Request {
@@ -10,21 +11,21 @@ declare module 'express-serve-static-core' {
 }
 
 export const authenticateToken = (req: Request, res: Response, next: NextFunction) => {
-    const token = req.header('Authorization');
-    if (!token) {
-        return next(ApiError.unauthorized('Access denied. Token missing.'));
-    }
-
     try {
-        req.user = jwt.verify(token, process.env.JWT_SECRET!) as IUser;
+        const token = req.headers.authorization?.split(' ')[1];
+
+        if (!token) {
+            return res.status(403).json({message: "Not logged in!"})
+        }
+
+        if (!process.env.SECRET_KEY) {
+            return next(new ApiError(403, 'SECRET_KEY is not set in the environment.'));
+        }
+
+        const decodedData: JwtPayload = jwt.verify(token, process.env.SECRET_KEY) as JwtPayload;
+        req.user = { _id: decodedData.userId } as IUser;
         next();
     } catch (error) {
-        if (error instanceof JsonWebTokenError) {
-            return res.status(401).json(ApiError.unauthorized('Invalid token.'));
-        }
-        if (error instanceof TokenExpiredError) {
-            return res.status(401).json(ApiError.unauthorized('Token has expired.'));
-        }
-        res.status(500).json(ApiError.internal('An error occurred.'));
+        return next(error);
     }
 };

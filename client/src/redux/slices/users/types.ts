@@ -3,13 +3,12 @@ export type UserType = {
     username: string,
     email: string,
     password: string,
-    registrationDate: string,
-    lastLoginDate: string,
-    status: string,
+    roles:[],
 }
 
-export interface UsersState {
-    users: UserType[],
+export interface UserState {
+    user: UserType,
+    isLogin: boolean,
     status: Status,
     error: string | null,
 }

@@ -8,6 +8,7 @@ class ReviewController {
             const {title, description, year, genre, imageUrl} = req.body;
             let userId = req.user;
             const newReview = await Review.create({
+                userId,
                 title,
                 year,
                 genre,
