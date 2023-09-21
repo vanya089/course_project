@@ -22,7 +22,7 @@ export const createReview = createAsyncThunk<void, {
             formData.append("description", description);
             formData.append("file", image);
 
-            const response = await axios.post("http://localhost:5005/api/createReview", formData, {
+            const response = await axios.post("https://course-project-nine.vercel.app/api/createReview", formData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                     "Authorization": TokenService.getToken("token"),
@@ -41,7 +41,7 @@ export const fetchReviews = createAsyncThunk<ReviewType[]>(
     async (_, {rejectWithValue}) => {
         try {
             const {data} = await axios.get(
-                `http://localhost:5005/api/getReviews`,
+                `https://course-project-nine.vercel.app/api/getReviews`,
             );
 
             return data;
@@ -55,7 +55,7 @@ export const searchReviews = createAsyncThunk<[],string>(
     'reviews/searchReviews',
     async (searchTerm, { rejectWithValue }) => {
         try {
-            const response = await axios.get(`http://localhost:5005/api/reviews/search?query=${searchTerm}`);
+            const response = await axios.get(`https://course-project-nine.vercel.app/api/reviews/search?query=${searchTerm}`);
             return response.data;
         } catch (e: any) {
             return rejectWithValue({ errorMessage: e.message });

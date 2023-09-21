@@ -21,7 +21,7 @@ const Header = () => {
                 <input
                     className="text-black rounded-md p-2"
                     type="text"
-                    placeholder="Поиск..."
+                    placeholder="Search..."
                     value={searchTerm}
                     onChange={(e) => {
                         setSearchTerm(e.target.value);

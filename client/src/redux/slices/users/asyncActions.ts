@@ -7,7 +7,7 @@ export const registerUser = createAsyncThunk<void, { email: string, username: st
     "user/registerUserStatus",
     async ({email, username, password}, {rejectWithValue, dispatch}) => {
         try {
-            const response = await axios.post("http://localhost:5005/api/registration", {
+            const response = await axios.post("https://course-project-nine.vercel.app/api/registration", {
                 email,
                 username,
                 password,
@@ -26,7 +26,7 @@ export const loginUser = createAsyncThunk<void, { email: string, password: strin
     "user/loginUserStatus",
     async ({email, password}, {rejectWithValue, dispatch}) => {
         try {
-            const response = await axios.post("http://localhost:5005/api/login", {
+            const response = await axios.post("https://course-project-nine.vercel.app/api/login", {
                 email,
                 password,
             });
@@ -60,7 +60,7 @@ export const fetchUser = createAsyncThunk<UserType, string>(
     async (email, {rejectWithValue, dispatch}) => {
         try {
             const {data} = await axios.get(
-                `http://localhost:5005/api/getUser/${email}`
+                `https://course-project-nine.vercel.app/api/getUser/${email}`
             );
             dispatch(setUser())
             return data;
@@ -76,7 +76,7 @@ export const checkUser = createAsyncThunk<void, { userId: string, complete: bool
     async ({userId, complete}, {rejectWithValue}) => {
         try {
             await axios.patch(
-                `http://localhost:5005/api/check`,
+                `https://course-project-nine.vercel.app/api/check`,
                 {_id: userId, complete}
             );
         } catch (e: Error | any) {
@@ -90,7 +90,7 @@ export const checkAllUsers = createAsyncThunk<void>(
     async (_, {rejectWithValue}) => {
         try {
             await axios.patch(
-                `http://localhost:5005/api/checkAll`
+                `https://course-project-nine.vercel.app/api/checkAll`
             );
         } catch (e: Error | any) {
             return rejectWithValue(e.message);
@@ -102,7 +102,7 @@ export const blockAllUsers = createAsyncThunk<void>(
     'user/blockAllUsersStatus',
     async (_, {rejectWithValue}) => {
         try {
-            await axios.put(`http://localhost:5005/api/blockAll`);
+            await axios.put(`https://course-project-nine.vercel.app/api/blockAll`);
         } catch (e: Error | any) {
             return rejectWithValue(e.message);
         }
@@ -114,7 +114,7 @@ export const blockUser = createAsyncThunk<void, string>(
     async (userId, {rejectWithValue}) => {
         try {
             await axios.put(
-                `http://localhost:5005/api/block/${userId}`
+                `https://course-project-nine.vercel.app/api/block/${userId}`
             );
         } catch (e: Error | any) {
             return rejectWithValue(e.message);
@@ -127,7 +127,7 @@ export const deleteOneUser = createAsyncThunk<void, string>(
     async (userId, {rejectWithValue}) => {
         try {
             await axios.delete(
-                `http://localhost:5005/api/deleteOne/${userId}`,
+                `https://course-project-nine.vercel.app/api/deleteOne/${userId}`,
             );
         } catch (e: Error | any) {
             return rejectWithValue(e.message);
@@ -140,7 +140,7 @@ export const deleteCheckedUsers = createAsyncThunk<void>(
     async (_, {rejectWithValue}) => {
         try {
             await axios.delete(
-                `http://localhost:5005/api/deleteChecked`
+                `https://course-project-nine.vercel.app/api/deleteChecked`
             );
         } catch (e: Error | any) {
             return rejectWithValue(e.message);
