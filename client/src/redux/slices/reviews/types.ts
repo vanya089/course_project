@@ -14,6 +14,7 @@ export interface ReviewState {
     reviews: ReviewType[],
     status: Status,
     error: string | null,
+    searchResults: [],
 }
 
 export enum Status {

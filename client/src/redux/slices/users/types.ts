@@ -3,7 +3,7 @@ export type UserType = {
     username: string,
     email: string,
     password: string,
-    roles:[],
+    roles: string[],
 }
 
 export interface UserState {

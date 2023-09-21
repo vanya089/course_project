@@ -37,7 +37,7 @@ export const createReview = createAsyncThunk<void, {
 );
 
 export const fetchReviews = createAsyncThunk<ReviewType[]>(
-    'user/fetchUsersStatus',
+    'review/fetchReviews',
     async (_, {rejectWithValue}) => {
         try {
             const {data} = await axios.get(
@@ -49,5 +49,16 @@ export const fetchReviews = createAsyncThunk<ReviewType[]>(
             return rejectWithValue({errorMessage: e.message});
         }
 
+    }
+);
+export const searchReviews = createAsyncThunk<[],string>(
+    'reviews/searchReviews',
+    async (searchTerm, { rejectWithValue }) => {
+        try {
+            const response = await axios.get(`http://localhost:5005/api/reviews/search?query=${searchTerm}`);
+            return response.data;
+        } catch (e: any) {
+            return rejectWithValue({ errorMessage: e.message });
+        }
     }
 );

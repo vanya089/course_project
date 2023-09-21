@@ -6,6 +6,7 @@ const express_1 = __importDefault(require("express"));
 const passport_1 = __importDefault(require("passport"));
 const express_validator_1 = require("express-validator");
 const UserController_1 = __importDefault(require("./controllers/UserController"));
+const authMiddleware_1 = require("./middleware/authMiddleware");
 const reviewMiddleware_1 = require("./middleware/reviewMiddleware");
 const ReviewController_1 = __importDefault(require("./controllers/ReviewController"));
 const multer_1 = __importDefault(require("multer"));
@@ -22,7 +23,8 @@ router.get('/google', passport_1.default.authenticate('google', { scope: ['profi
 router.get('/google/callback', passport_1.default.authenticate('google'), UserController_1.default.authCallback);
 router.get('/twitter', passport_1.default.authenticate('twitter'));
 router.get('/twitter/callback', passport_1.default.authenticate('twitter'), UserController_1.default.authCallback);
-router.post("/createReview", upload.single('file'), reviewMiddleware_1.processMovieImage, ReviewController_1.default.createReview);
+router.post("/createReview", upload.single('file'), reviewMiddleware_1.processMovieImage, authMiddleware_1.authenticateToken, ReviewController_1.default.createReview);
 router.get("/getReviews", ReviewController_1.default.getReviews);
-router.delete("/review/:id", ReviewController_1.default.deleteReview);
+router.get("/reviews/search", ReviewController_1.default.searchReviews);
+router.delete("/review/:id", authMiddleware_1.authenticateToken, ReviewController_1.default.deleteReview);
 module.exports = router;

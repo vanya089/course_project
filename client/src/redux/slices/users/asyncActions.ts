@@ -42,9 +42,9 @@ export const loginUser = createAsyncThunk<void, { email: string, password: strin
     }
 );
 
-export const logoutUser = createAsyncThunk<void, { email: string, password: string }>(
+export const logoutUser = createAsyncThunk<void>(
     "user/logoutUserStatus",
-    async ({email, password}, {rejectWithValue}) => {
+    async (_, {rejectWithValue}) => {
         try {
 
             localStorage.removeItem("token");

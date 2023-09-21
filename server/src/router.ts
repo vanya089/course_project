@@ -39,6 +39,7 @@ router.post(
     ReviewController.createReview
 );
 router.get("/getReviews", ReviewController.getReviews);
+router.get("/reviews/search", ReviewController.searchReviews);
 router.delete("/review/:id",authenticateToken, ReviewController.deleteReview);
 
 export = router;

@@ -11,10 +11,10 @@ interface IReview extends Document {
 
 const ReviewSchema = new Schema<IReview>({
     //userId: {type: String, required: true},
-    title: {type: String, required: true},
-    description: {type: String, required: true},
-    year: {type: String, required: true},
-    genre: {type: String, required: true},
+    title: {type: String, required: true, text: true,},
+    description: {type: String, required: true, text: true,},
+    year: {type: String, required: true, text: true,},
+    genre: {type: String, required: true, text: true,},
     imageUrl: {type: String, required: true},
 });
 

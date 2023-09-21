@@ -7,9 +7,9 @@ class ReviewController {
     public async createReview(req: Request, res: Response, next: NextFunction) {
         try {
             const {title, description, year, genre, imageUrl} = req.body;
-            let userId = req.user;
+            //let userId = req.user;
             const newReview = await Review.create({
-                userId,
+                //    userId,
                 title,
                 year,
                 genre,
@@ -30,6 +30,21 @@ class ReviewController {
             return next(new ApiError(500, 'An error occurred while fetching reviews.'));
         }
     }
+
+    public async searchReviews(req: Request, res: Response, next: NextFunction) {
+        try {
+            const { query } = req.query as { query: string };
+            console.log(query)
+
+            const results = await Review.find({
+                $text: {$search: query},
+            });
+
+            res.json(results);
+        } catch (error) {
+            return next(new ApiError(400, 'Search error'));
+        }
+    };
 
     public async deleteReview(req: Request, res: Response, next: NextFunction): Promise<void> {
         try {
