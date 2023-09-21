@@ -12,10 +12,6 @@ const Header = () => {
     const {user} = useSelector(userSelector);
     const [searchTerm, setSearchTerm] = useState('');
 
-    const handleSearch = () => {
-        dispatch(searchReviews(searchTerm));
-    };
-
     return (
         <div className="flex items-center justify-between font-bold bg-teal-800 h-20 px-6 rounded-md">
             <Link to="/">
@@ -27,9 +23,11 @@ const Header = () => {
                     type="text"
                     placeholder="Поиск..."
                     value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
+                    onChange={(e) => {
+                        setSearchTerm(e.target.value);
+                        dispatch(searchReviews(e.target.value));
+                    }}
                 />
-                <button className=" border rounded-md p-2" onClick={handleSearch}>Search</button>
             </div>
             <div className="flex gap-2">
                 {user.isLogin ? (
