@@ -3,11 +3,10 @@ import cors from "cors";
 const mongoose = require('mongoose').default;
 require("dotenv").config();
 import router = require("./router");
-const morgan = require('morgan');
 import ApiErrorHandler from "./error/ApiErrorHandler";
 
 const corsOptions = {
-    origin: ['http://localhost:3000','https://course-project-ten.vercel.app'],
+    origin: ['http://localhost:3000','https://course-project-cjz7.vercel.app'],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
 };
@@ -23,7 +22,7 @@ app.use(express.json());
 app.use(cors(corsOptions));
 app.use("/api", router)
 //app.use(ApiErrorHandler);
-app.use(morgan('dev'));
+
 
 async function startApp() {
     try {
