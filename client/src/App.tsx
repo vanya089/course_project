@@ -15,15 +15,15 @@ function App() {
             <Routes>
                 {
                     isLogin && userRoutes.map(({path, Component}) =>
-                        <Route path={path} element={<Component/>}/>)
+                        <Route key={path} path={path} element={<Component/>}/>)
                 }
                 {
                     isAdmin && adminRoutes.map(({path, Component}) =>
-                        <Route path={path} element={<Component/>}/>)
+                        <Route key={path} path={path} element={<Component/>}/>)
                 }
                 {
                     publicRoutes.map(({path, Component}) =>
-                        <Route path={path} element={<Component/>}/>)
+                        <Route key={path} path={path} element={<Component/>}/>)
                 }
             </Routes>
             <Footer/>

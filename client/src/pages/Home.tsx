@@ -1,11 +1,9 @@
 import React, {useEffect} from 'react';
-import movies from "../movies.json";
 import Review from "../components/review/Review";
 import ReviewSkeleton from "../components/review/ReviewSkeleton";
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch} from "../redux/store";
 import {fetchReviews} from "../redux/slices/reviews/asyncActions";
-import {userSelector} from "../redux/slices/users/userSlice";
 import {reviewSelector} from "../redux/slices/reviews/reviewSlice";
 
 const Home = () => {
@@ -27,7 +25,7 @@ const Home = () => {
     }, [])
 
 
-    const items = reviews.map((items) => <Review key={items._id} {...items}/>);
+    const items = reviews.map((obj) => <Review key={obj._id} {...obj}/>);
     const skeletons = [...new Array(12)].map((_, index) => <ReviewSkeleton key={index}/>);
 
     return (

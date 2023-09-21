@@ -1,6 +1,5 @@
 import React, {useEffect} from 'react';
 import {Link} from "react-router-dom";
-import movies from "../movies.json";
 import Review from "../components/review/Review";
 import ReviewSkeleton from "../components/review/ReviewSkeleton";
 import {useDispatch, useSelector} from "react-redux";
@@ -27,7 +26,7 @@ const UserPage: React.FC = () => {
         getReviews()
     }, [])
 
-    const items = reviews.map((items) => <Review key={items._id} {...items}/>);
+    const items = Array.isArray(reviews) ? reviews.map((obj) => <Review key={obj._id} {...obj}/>) : [];
     const skeletons = [...new Array(12)].map((_, index) => <ReviewSkeleton key={index}/>);
 
     return (
