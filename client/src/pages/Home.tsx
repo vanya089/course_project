@@ -33,7 +33,7 @@ const Home = () => {
     const skeletons = [...new Array(12)].map((_, index) => <ReviewSkeleton key={index}/>);
 
     return (
-        <div className="mx-auto w-[90%]">
+        <div className="mx-auto min-h-[700px] w-[90%]">
             <div className="my-12 p-6 w-full h-40 border rounded-md  border-teal-800">
 
                 <h3 className="text-xl text-center">
