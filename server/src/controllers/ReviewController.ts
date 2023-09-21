@@ -1,9 +1,10 @@
-import {Request, Response} from 'express';
+import {NextFunction, Request, Response} from 'express';
 import Review from '../models/Review';
+import ApiError from "../error/ApiError";
 
 
 class ReviewController {
-    public async createReview(req: Request, res: Response) {
+    public async createReview(req: Request, res: Response, next: NextFunction) {
         try {
             const {title, description, year, genre, imageUrl} = req.body;
             let userId = req.user;
@@ -17,30 +18,30 @@ class ReviewController {
             });
             res.status(201).json(newReview);
         } catch (error) {
-            res.status(400).json({error: 'Failed to create movie.'});
+            return next(new ApiError(400, 'Failed to create movie.'));
         }
     }
 
-    public async getReviews(req: Request, res: Response): Promise<void> {
+    public async getReviews(req: Request, res: Response, next: NextFunction): Promise<void> {
         try {
-            const movies = await Review.find();
-            res.status(200).json(movies);
+            const review = await Review.find();
+            res.status(200).json(review);
         } catch (error) {
-            res.status(500).json({error: 'An error occurred while fetching movies.'});
+            return next(new ApiError(500, 'An error occurred while fetching reviews.'));
         }
     }
 
-    public async deleteReview(req: Request, res: Response): Promise<void> {
+    public async deleteReview(req: Request, res: Response, next: NextFunction): Promise<void> {
         try {
-            const {id} = req.params;
-            const deletedMovie = await Review.findByIdAndDelete(id);
+            const {_id} = req.params;
+            const deletedMovie = await Review.findByIdAndDelete(_id);
             if (deletedMovie) {
                 res.status(200).json({message: 'Review deleted successfully.'});
             } else {
-                res.status(404).json({error: 'Review not found.'});
+                return next(new ApiError(404, 'Review not found!'));
             }
         } catch (error) {
-            res.status(500).json({error: 'An error occurred while deleting the movie.'});
+            return next(new ApiError(500, 'An error occurred while deleting the review.'));
         }
     }
 }

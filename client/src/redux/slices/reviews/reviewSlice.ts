@@ -1,6 +1,7 @@
 import {ReviewState, ReviewType, Status} from "./types";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {RootState} from "../../store";
+import {fetchReviews} from "./asyncActions";
 
 
 const initialState: ReviewState = {
@@ -18,17 +19,22 @@ export const reviewSlice = createSlice({
             state.reviews = action.payload;
         },
     },
-    // extraReducers: (builder) => {
-    //     builder.addCase(createReview.fulfilled, (state, action) => {
-    //         state.status = Status.SUCCESS;
-    //         state.reviews = action.payload;
-    //         state.error = null;
-    //     });
-    //     builder.addCase(createReview.rejected, (state, action) => {
-    //         state.status = Status.ERROR;
-    //         state.error = (action.payload as { errorMessage: string }).errorMessage;
-    //     });
-    // },
+    extraReducers: (builder) => {
+        builder.addCase(fetchReviews.pending, (state) => {
+            state.status = Status.LOADING;
+            state.reviews = [];
+            state.error = null;
+        });
+        builder.addCase(fetchReviews.fulfilled, (state, action) => {
+            state.status = Status.SUCCESS;
+            state.reviews = action.payload;
+            state.error = null;
+        });
+        builder.addCase(fetchReviews.rejected, (state, action) => {
+            state.status = Status.ERROR;
+            state.error = (action.payload as { errorMessage: string }).errorMessage;
+        });
+    },
 })
 export const reviewSelector = (state: RootState) => state.reviews
 export const {setReviews} = reviewSlice.actions

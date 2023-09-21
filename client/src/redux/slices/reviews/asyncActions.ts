@@ -1,6 +1,9 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import axios from "axios";
 import {TokenService} from "./token-service";
+import {UserType} from "../users/types";
+import {setUser} from "../users/userSlice";
+import {ReviewType} from "./types";
 
 export const createReview = createAsyncThunk<void, {
     title: string;
@@ -30,5 +33,21 @@ export const createReview = createAsyncThunk<void, {
         } catch (e: Error | any) {
             return rejectWithValue({errorMessage: e.message});
         }
+    }
+);
+
+export const fetchReviews = createAsyncThunk<ReviewType[]>(
+    'user/fetchUsersStatus',
+    async (_, {rejectWithValue}) => {
+        try {
+            const {data} = await axios.get(
+                `http://localhost:5005/api/getReviews`,
+            );
+
+            return data;
+        } catch (e: any) {
+            return rejectWithValue({errorMessage: e.message});
+        }
+
     }
 );
