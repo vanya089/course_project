@@ -34,7 +34,6 @@ class ReviewController {
     public async searchReviews(req: Request, res: Response, next: NextFunction) {
         try {
             const { query } = req.query as { query: string };
-            console.log(query)
 
             const results = await Review.find({
                 $text: {$search: query},

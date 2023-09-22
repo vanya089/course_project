@@ -55,7 +55,7 @@ const CreateReview: React.FC = () => {
                 <textarea className="text-black px-2 rounded" placeholder="description" id="description"
                           name="description"></textarea>
                 <input type="file" placeholder="file" id="file" name="file"/>
-                <button className="border rounded items-center mx-auto w-48" type="submit">Отправить</button>
+                <button className="border rounded items-center mx-auto w-48" type="submit">Send</button>
             </form>
         </div>
     );

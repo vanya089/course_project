@@ -24,8 +24,12 @@ const Header = () => {
                     placeholder="Search..."
                     value={searchTerm}
                     onChange={(e) => {
-                        setSearchTerm(e.target.value);
-                        dispatch(searchReviews(e.target.value));
+                        const searchValue = e.target.value;
+                        setTimeout(() => {
+                            setSearchTerm(searchValue);
+                            dispatch(searchReviews(searchValue));
+                        }, 200);
+
                     }}
                 />
             </div>

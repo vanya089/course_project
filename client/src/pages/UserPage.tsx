@@ -33,13 +33,13 @@ const UserPage: React.FC = () => {
         <div className="flex flex-col items-center mx-auto my-40 w-[90%]">
             <div className=" p-11 w-full h-40 border rounded-md  border-teal-800 ">
                 <div className="text-xl text-center ">
-                    <p>Здесь вы сможете посмотреть свои обзоры и добавить новый.</p>
-                    <p>Чтобы написать новый обзор, нажмите "Сделать обзор"</p>
+                    <p>Here you can view your reviews and add a new one.</p>
+                    <p>To write a new review, click "Create review"</p>
                 </div>
             </div>
             <div className="my-12">
                 <Link to={"/createReview"}>
-                    <button className="border rounded border-teal-800 p-2 bg-teal-900">Сделать обзор</button>
+                    <button className="border rounded border-teal-800 p-2 bg-teal-900">Create review</button>
                 </Link>
             </div>
             <div className="grid grid-cols-4 grid-rows-3 gap-8">

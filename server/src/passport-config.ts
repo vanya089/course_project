@@ -1,9 +1,9 @@
 import passport from 'passport';
 import {Strategy as GoogleStrategy} from 'passport-google-oauth20';
 import { Strategy as TwitterStrategy } from 'passport-twitter';
-import User, {IUser} from './models/User';
+import User from './models/User';
 import {generateAccessToken} from './controllers/UserController';
-import ApiError from "./error/ApiError";
+
 
 passport.use(
     new GoogleStrategy(

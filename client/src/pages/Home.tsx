@@ -37,8 +37,8 @@ const Home = () => {
             <div className="my-12 p-6 w-full h-40 border rounded-md  border-teal-800">
 
                 <h3 className="text-xl text-center">
-                    Добро пожаловать на сайт обзоров фильмов, книг, сериалов.
-                    Чтобы добавить свой обзор, зарегистрируйтесь или войдите.
+                    Welcome to the site for reviews of films, books, and TV series.
+                    To add your review, register or log in.
                 </h3>
             </div>
             {
