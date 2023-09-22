@@ -4,7 +4,7 @@ import ReviewSkeleton from "../components/review/ReviewSkeleton";
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch} from "../redux/store";
 import {fetchReviews} from "../redux/slices/reviews/asyncActions";
-import {reviewSelector, setSearchResults} from "../redux/slices/reviews/reviewSlice";
+import {reviewSelector} from "../redux/slices/reviews/reviewSlice";
 import {ReviewType} from "../redux/slices/reviews/types";
 
 const Home = () => {

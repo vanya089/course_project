@@ -22,6 +22,24 @@ export const registerUser = createAsyncThunk<void, { email: string, username: st
     }
 );
 
+export const googleAuth = createAsyncThunk<void, void>(
+    "user/googleAuthStatus",
+    async (_, {rejectWithValue, dispatch}) => {
+        try {
+            const response = await axios.get("https://course-project-nine.vercel.app/api/google");
+
+            const {token} = response.data;
+
+            localStorage.setItem("token", token);
+
+
+        } catch (e: Error | any) {
+
+            return rejectWithValue({errorMessage: e.message});
+        }
+    }
+);
+
 export const loginUser = createAsyncThunk<void, { email: string, password: string }>(
     "user/loginUserStatus",
     async ({email, password}, {rejectWithValue, dispatch}) => {
@@ -44,7 +62,7 @@ export const loginUser = createAsyncThunk<void, { email: string, password: strin
 
 export const logoutUser = createAsyncThunk<void>(
     "user/logoutUserStatus",
-    async (_, {rejectWithValue}) => {
+    async (_, {rejectWithValue,dispatch}) => {
         try {
 
             localStorage.removeItem("token");

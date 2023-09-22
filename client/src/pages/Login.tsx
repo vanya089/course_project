@@ -4,7 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch} from "../redux/store";
 import {loginUser} from "../redux/slices/users/asyncActions";
 
-import {AiFillFacebook, AiOutlineGoogle} from "react-icons/ai";
+import {AiFillFacebook, AiFillTwitterCircle, AiOutlineGoogle, AiOutlineTwitter} from "react-icons/ai";
 import {userSelector} from "../redux/slices/users/userSlice";
 
 
@@ -12,6 +12,7 @@ const Login: React.FC = () => {
     const navigate = useNavigate();
     const {user} = useSelector(userSelector)
     const dispatch = useDispatch<AppDispatch>()
+
 
     const loginFunc = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
@@ -24,6 +25,7 @@ const Login: React.FC = () => {
             password
         }))
     }
+
 
     useEffect(() => {
         if (user.isLogin) {
@@ -41,8 +43,8 @@ const Login: React.FC = () => {
                         <p>Google</p>
                     </div>
                     <div className="mx-auto mb-10 flex justify-center gap-3 my-4 h-8 w-40 border-2 rounded-full w-40">
-                        <AiFillFacebook size={25}/>
-                        <p>Facebook</p>
+                        <AiOutlineTwitter size={25}/>
+                        <p>Twitter</p>
                     </div>
                     <hr className="mx-8"/>
                     <div className="px-2 absolute left-[100px] top-[139px] bg-black">Or with email and password</div>

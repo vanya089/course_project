@@ -18,7 +18,7 @@ const initialState: UserState = {
         username: "",
         email: "",
         password: "",
-        roles:[]
+        roles: []
     },
     isLogin: false,
     status: Status.LOADING,
@@ -33,6 +33,7 @@ export const userSlice = createSlice({
         setUser(state) {
             state.isLogin = !state.isLogin;
         },
+
     },
     extraReducers: (builder) => {
         builder.addCase(fetchUser.pending, (state) => {

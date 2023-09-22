@@ -1,12 +1,12 @@
-/*
 import passport from 'passport';
 import {Strategy as GoogleStrategy} from 'passport-google-oauth20';
 import { Strategy as TwitterStrategy } from 'passport-twitter';
 import User, {IUser} from './models/User';
 import {generateAccessToken} from './controllers/UserController';
+import ApiError from "./error/ApiError";
 
 passport.use(
-    <passport.Strategy>new GoogleStrategy(
+    new GoogleStrategy(
         {
             clientID: 'YOUR_GOOGLE_CLIENT_ID',
             clientSecret: 'YOUR_GOOGLE_CLIENT_SECRET',
@@ -14,11 +14,13 @@ passport.use(
         },
         async (accessToken, refreshToken, profile, done) => {
             try {
-                let user = await User.findOne({googleId: profile.id});
+                let user = await User.findOne({ googleId: profile.id });
 
                 if (!user) {
                     if (profile.emails) {
-                        user = new User({googleId: profile.id, email: profile.emails[0].value});
+                        user = new User({ googleId: profile.id, email: profile.emails[0].value });
+                    } else {
+                        throw new Error('Email not found in Google profile.');
                     }
                     await user.save();
                 }
@@ -26,13 +28,15 @@ passport.use(
                 const token = generateAccessToken(user._id, user.roles);
                 return done(null, token);
             } catch (error) {
-                return done(error);
+                return done(new Error('Something went wrong during Google authentication.'));
             }
         }
     )
 );
+
+
 passport.use(
-    <passport.Strategy>new TwitterStrategy(
+    new TwitterStrategy(
         {
             consumerKey: 'YOUR_TWITTER_CONSUMER_KEY',
             consumerSecret: 'YOUR_TWITTER_CONSUMER_SECRET',
@@ -43,30 +47,38 @@ passport.use(
                 let user = await User.findOne({ twitterId: profile.id });
 
                 if (!user) {
-
                     user = new User({
                         twitterId: profile.id,
                         email: '',
-
                     });
 
                     await user.save();
                 }
 
-
                 const token = generateAccessToken(user._id, user.roles);
                 return done(null, token);
             } catch (error) {
-                return done(error);
+                return done(new Error('Something went wrong during Twitter authentication.'));
             }
         }
     )
 );
-passport.serializeUser((user: IUser, done) => {
-    done(null, user);
+
+passport.serializeUser((user: any, done) => {
+    done(null, user._id);
 });
 
-passport.deserializeUser((user: IUser, done) => {
-    done(null, user);
+passport.deserializeUser(async (id, done) => {
+    try {
+        const user = await User.findById(id);
+        done(null, user);
+    } catch (error) {
+        done(error, null);
+    }
 });
-*/
+
+
+
+
+
+
