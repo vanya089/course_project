@@ -42,7 +42,7 @@ const Home = () => {
                 </h3>
             </div>
             {
-                <div className="grid grid-cols-4 grid-rows-3 gap-8">
+                <div className="ml-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-4 grid-rows-3 gap-8 inline-grid justify-items-center items-center">
                     {status === 'loading' ? skeletons : items}
                 </div>
             }

@@ -17,7 +17,7 @@ const Header = () => {
             <Link to="/">
                 <h1 className="text-3xl">Best choice!</h1>
             </Link>
-            <div className="flex gap-5">
+            <div className="hidden sm:flex gap-5">
                 <input
                     className="text-black rounded-md p-2"
                     type="text"
@@ -33,29 +33,32 @@ const Header = () => {
                     }}
                 />
             </div>
-            <div className="flex gap-2">
-                {user.isLogin ? (
-                    <>
-                        <Link to={"userPage"}>
-                            <button className="text-white border rounded-md p-2">{user.user!.username}</button>
-                        </Link>
-                        <button onClick={() => dispatch(logoutUser())}
-                                className="text-white border rounded-md p-2">Logout
-                        </button>
-                    </>
-                ) : (
-                    <>
-                        <Link to="/login">
-                            <button className="p-2 border rounded-md">Login</button>
-                        </Link>
-                        <Link to="/registration">
-                            <button className="p-2 border-2 rounded-md">
-                                <b>Sign Up</b>
+            <div className="flex sm:flex-col gap-2 ">
+                <div className="">
+                    {user.isLogin ? (
+                        <>
+                            <Link to={"userPage"}>
+                                <button className="text-white border rounded-md p-2 ">{user.user!.username}</button>
+                            </Link>
+                            <button onClick={() => dispatch(logoutUser())}
+                                    className="text-white border rounded-md p-2 ">Logout
                             </button>
-                        </Link>
-                    </>
-                )}
+                        </>
+                    ) : (
+                        <>
+                            <Link to="/login">
+                                <button className="p-2 border rounded-md mr-2">Login</button>
+                            </Link>
+                            <Link to="/registration">
+                                <button className="p-2 border-2 rounded-md">
+                                    <b>Sign Up</b>
+                                </button>
+                            </Link>
+                        </>
+                    )}
+                </div>
             </div>
+
         </div>
     );
 };
