@@ -39,14 +39,14 @@ const Home = () => {
             <div className={`my-12 p-6 w-full h-40 border rounded-md   
             ${isDarkMode ? 'border-teal-800' : 'border-blue-600'}`}>
 
-                <h3 className={`p-6 text-xl text-center ${isDarkMode ? 'text-white' : 'text-black'}`}>
+                <h3 className={`p-2 text-xl text-center ${isDarkMode ? 'text-white' : 'text-black'}`}>
                     Welcome to the site for reviews of films, books, and TV series.
                     <p>To add your review, register or log in.</p>
                 </h3>
             </div>
             {
                 <div
-                    className="ml-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-4 grid-rows-3 gap-8 inline-grid justify-items-center items-center">
+                    className="ml-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 grid-rows-3 gap-8 inline-grid justify-items-center items-center">
                     {status === 'loading' ? skeletons : items}
                 </div>
             }
