@@ -1,8 +1,8 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch} from "../redux/store";
 import {createReview} from "../redux/slices/reviews/asyncActions";
-import {Link, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {themeSelector} from "../redux/slices/theme/themeSlice";
 
 const CreateReview: React.FC = () => {

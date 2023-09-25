@@ -7,7 +7,7 @@ import {logoutUser} from "../redux/slices/users/asyncActions";
 import {searchReviews} from "../redux/slices/reviews/asyncActions";
 import {themeSelector, toggleTheme} from "../redux/slices/theme/themeSlice";
 import {FiMoon, FiSun} from "react-icons/fi";
-import {BiSun} from "react-icons/bi";
+
 
 
 const Header: React.FC = () => {
