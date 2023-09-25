@@ -1,5 +1,4 @@
 import {createSlice} from '@reduxjs/toolkit'
-import type {PayloadAction} from '@reduxjs/toolkit'
 import type {RootState} from '../../store'
 import {
     blockAllUsers,
@@ -71,6 +70,6 @@ export const userSlice = createSlice({
 })
 
 
-export const userSelector = (state: RootState) => state;
+export const userSelector = (state: RootState) => state.user;
 export const {setUser} = userSlice.actions;
 export default userSlice.reducer;

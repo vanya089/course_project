@@ -5,7 +5,16 @@
 
 html {
     scroll-behavior: smooth;
-    background:linear-gradient( rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.9) ), url("assets/top-101.jpg") fixed;
+   /* background:linear-gradient( rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.9) ), url("assets/dark-background.jpg") fixed;
+    background-size: 20% 8%;*/
+}
+.dark {
+    background: linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.9)), url("assets/dark-background.jpg") fixed;
+    background-size: 20% 8%;
+}
+
+.light {
+    background: linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7)) , url("assets/light-background.jpg") fixed;
     background-size: 20% 8%;
 }
 

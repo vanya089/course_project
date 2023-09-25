@@ -1,12 +1,14 @@
 import React, {useEffect} from 'react';
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch} from "../redux/store";
 import {createReview} from "../redux/slices/reviews/asyncActions";
 import {Link, useNavigate} from "react-router-dom";
+import {themeSelector} from "../redux/slices/theme/themeSlice";
 
 const CreateReview: React.FC = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch<AppDispatch>();
+    const isDarkMode = useSelector(themeSelector);
 
     const formHandler = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -49,13 +51,32 @@ const CreateReview: React.FC = () => {
                 encType="multipart/form-data"
                 onSubmit={formHandler}
             >
-                <input className="text-black px-2 rounded" type="text" placeholder="title" id="title" name="title"/>
-                <input className="text-black px-2 rounded" type="text" placeholder="year" id="year" name="year"/>
-                <input className="text-black px-2 rounded" type="text" placeholder="genre" id="genre" name="genre"/>
-                <textarea className="text-black px-2 rounded" placeholder="description" id="description"
-                          name="description"></textarea>
-                <input type="file" placeholder="file" id="file" name="file"/>
-                <button className="border rounded items-center mx-auto w-48" type="submit">Send</button>
+                <input className={`text-black border px-2 rounded 
+                ${isDarkMode ? 'text-white bg-black' : 'text-black bg-gray-100 border-black'}`}
+                       type="text"
+                       placeholder="title"
+                       id="title"
+                       name="title"/>
+                <input className={`text-black border px-2 rounded 
+                ${isDarkMode ? 'text-white bg-black' : 'text-black bg-gray-100 border-black'}`}
+                       type="text"
+                       placeholder="year"
+                       id="year"
+                       name="year"/>
+                <input className={`text-black border px-2 rounded 
+                ${isDarkMode ? 'text-white bg-black' : 'text-black bg-gray-100 border-black'}`}
+                       type="text"
+                       placeholder="genre"
+                       id="genre"
+                       name="genre"/>
+                <textarea className={`text-black border px-2 rounded 
+                ${isDarkMode ? 'text-white bg-black' : 'text-black bg-gray-100 border-black'}`}
+                          placeholder="description"
+                          id="description"
+                          name="description">
+                </textarea>
+                <input className={`${isDarkMode ? 'text-white bg-black' : 'text-black bg-gray-100 border-black'}`} type="file" placeholder="file" id="file" name="file"/>
+                <button className={`border rounded-md mx-24 ${isDarkMode ? 'text-white bg-black' : 'text-black bg-gray-100 border-black'}`} type="submit">Send</button>
             </form>
         </div>
     );

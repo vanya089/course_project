@@ -1,11 +1,13 @@
-import { configureStore } from '@reduxjs/toolkit';
+import {configureStore} from '@reduxjs/toolkit';
 import user from './slices/users/userSlice';
 import reviews from './slices/reviews/reviewSlice';
+import theme from './slices/theme/themeSlice';
 
 export const store = configureStore({
     reducer: {
         user,
         reviews,
+        theme,
     },
 })
 
